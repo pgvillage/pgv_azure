@@ -1,0 +1,18 @@
+---
+azure_resource_group: "rg_{{ cluster_name }}"
+azure_vmss_name: "vmss{{ cluster_name }}"
+azure_vmss_vm_size: Standard_DS1_v2
+azure_vmss_vm_count: "3"
+azure_lb_name: "lb_{{ cluster_name }}"
+azure_lbfe_name: "lbfe_{{ cluster_name }}"
+azure_lbbe_name: "lbbe_{{ cluster_name }}"
+azure_nw_name: "nw_{{ cluster_name }}"
+azure_subnet_name: "sn_{{ cluster_name }}"
+azure_vip_name: "vip_{{ cluster_name }}"
+azure_sg_name: "sg_{{ cluster_name }}"
+azure_location: westeurope
+azure_data_gb: 100
+azure_wal_gb: 10
+azure_vm_disk_type: Standard_LRS
+azure_data_disk_type: "{{ azure_vm_disk_type }}"
+azure_wal_disk_type: "{{ azure_data_disk_type }}"
