@@ -11,7 +11,8 @@ az vm create \
   --name pgVControl \
   --image Debian \
   --admin-username azureuser \
-  --generate-ssh-keys
+  --generate-ssh-keys \
+  --set tags.applicationRole=ansible_runner
 ```
 * log into it:
 ```
