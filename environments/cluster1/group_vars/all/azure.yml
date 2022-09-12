@@ -5,7 +5,7 @@ azure_bastion_name: "bastion{{ cluster_name }}"
 azure_bastion_vm_size: Standard_B1ls
 azure_vmss_name: "vmss{{ cluster_name }}"
 azure_vmss_vm_size: Standard_DS1_v2
-azure_vmss_vm_count: "2"
+azure_vmss_vm_count: "3"
 azure_lb_name: "lb_{{ cluster_name }}"
 azure_lbfe_name: "lbfe_{{ cluster_name }}"
 azure_lbbe_name: "lbbe_{{ cluster_name }}"

@@ -1,4 +1,5 @@
-- hosts: all
+- hosts:
+    - localhost
   collections:
     - azure.azcollection
   tasks:
@@ -151,3 +152,11 @@
           - lun: 1
             disk_size_gb: "{{ azure_wal_gb }}"
             managed_disk_type: "{{ azure_wal_disk_type }}"
+
+    - name: Set bastion as proxy for _postgres
+      copy:
+        content: '{{ body | to_nice_yaml(indent=8, width=1337) }}'
+        dest: "{{ inventory_dir }}/group_vars/_postgres/proxy.yml"
+      vars:
+        body:
+          ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ProxyCommand="ssh {{ hostvars[groups["_bastion"][0]].public_ipv4_addresses[0] }} -W %h:%p"'
