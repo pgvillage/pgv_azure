@@ -1,1 +1,0 @@
-ansible_ssh_common_args: -o StrictHostKeyChecking=no -o ProxyCommand="ssh 20.8.97.227 -W %h:%p"

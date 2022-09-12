@@ -1,0 +1,19 @@
+---
+- hosts:
+    - localhost
+  collections:
+    - azure.azcollection
+  roles:
+    - azure
+
+
+- name: Refresh inventory
+  hosts: hacluster
+  gather_facts: true
+  tasks:
+    - meta: refresh_inventory
+
+- hosts:
+    - localhost
+  roles:
+    - chainsmith

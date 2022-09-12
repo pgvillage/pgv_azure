@@ -14,6 +14,8 @@ az vm create \
   --generate-ssh-keys \
   --tags applicationRole=ansible_runner
 ```
+
+P.s. VMSize B1ls seems too small. Running with B1s seems to work good ATM.
 * log into it:
 ```
 ssh azureuser@$(az vm show -d -g pgVillage -n pgVControl --query publicIps -o tsv)

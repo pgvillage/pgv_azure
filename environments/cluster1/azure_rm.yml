@@ -9,4 +9,3 @@ include_vmss_resource_groups:
 auth_source: auto
 keyed_groups:
  - key: tags.applicationRole
-

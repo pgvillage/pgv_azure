@@ -1,5 +1,15 @@
 ---
 all:
+  children:
+    stolon:
+      children:
+        _postgres
+    etcd_master:
+      children:
+        _postgres
+    hacluster:
+      children:
+        _postgres
   hosts:
     localhost:
      vars:

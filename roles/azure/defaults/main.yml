@@ -1,0 +1,33 @@
+---
+# defaults file for azure
+azure_cluster_name: cluster1
+azure_resource_group: "rg_{{ azure_cluster_name }}"
+azure_bastion_name: "bastion{{ azure_cluster_name }}"
+azure_bastion_vm_size: Standard_B1ls
+azure_bastion_image: "{{ azure_vmss_image }}"
+azure_bastion_plan: "{{ azure_vmss_plan }}"
+azure_vmss_name: "vmss{{ cluster_name }}"
+azure_vmss_vm_size: Standard_DS1_v2
+azure_vmss_vm_count: "3"
+azure_vmss_image:
+  offer: rockylinux
+  publisher: erockyenterprisesoftwarefoundationinc1653071250513
+  version: latest
+  sku: free
+azure_vmss_plan:
+  name: "free"
+  product: "rockylinux"
+  publisher: "erockyenterprisesoftwarefoundationinc1653071250513"
+azure_lb_name: "lb_{{ azure_cluster_name }}"
+azure_lbfe_name: "lbfe_{{ azure_cluster_name }}"
+azure_lbbe_name: "lbbe_{{ azure_cluster_name }}"
+azure_nw_name: "nw_{{ azure_cluster_name }}"
+azure_subnet_name: "sn_{{ azure_cluster_name }}"
+azure_vip_name: "vip_{{ azure_cluster_name }}"
+azure_sg_name: "sg_{{ azure_cluster_name }}"
+azure_location: westeurope
+azure_data_gb: 100
+azure_wal_gb: 10
+azure_vm_disk_type: Standard_LRS
+azure_data_disk_type: "{{ azure_vm_disk_type }}"
+azure_wal_disk_type: "{{ azure_data_disk_type }}"

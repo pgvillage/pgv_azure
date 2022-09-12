@@ -1,0 +1,1 @@
+chainsmith_servers: "{% set nodes = {} %}{% for node in groups['hacluster'] %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: [hostvars[node].ansible_host]}) %}{% endfor %}{{ nodes }}"

@@ -1,0 +1,5 @@
+- hosts: vmsscluster1_1_a5b1
+  tasks:
+  - name: debug
+    debug:
+      var: "hostvars[inventory_hostname].ansible_facts.fqdn"
