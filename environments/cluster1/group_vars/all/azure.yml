@@ -4,4 +4,4 @@ azure_cluster_name: "{{ cluster_name }}"
 # required for clean playbook
 azure_resource_group: "rg_{{ azure_cluster_name }}"
 # to enable cleaning
-azure_demo: true
+azure_allow_clean: true
