@@ -3,6 +3,8 @@ linux_pg_version: "{{ postgresql_version }}"
 
 linux_packages:
   hacluster:
+    - "langpacks-en"
+    - "glibc-all-langpacks"
     - "postgresql{{ linux_pg_version|replace('.','') }}"
     - "postgresql{{ linux_pg_version|replace('.','') }}-server"
     - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"

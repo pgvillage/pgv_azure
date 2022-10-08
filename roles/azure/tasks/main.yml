@@ -150,4 +150,4 @@
     dest: "{{ inventory_dir }}/group_vars/_postgres/proxy.yml"
   vars:
     body:
-      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ProxyCommand="ssh {{ bastion.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }} -W %h:%p"'
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ProxyCommand="ssh {{ bastion.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }} -W %h:%p -o StrictHostKeyChecking=no"'
