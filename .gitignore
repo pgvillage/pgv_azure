@@ -1,2 +1,2 @@
 environments/cluster1/group_vars/all/cert*s.yml
-environments/cluster1/group_vars/_postgres/proxy.yml
+environments/cluster1/group_vars/_postgres/

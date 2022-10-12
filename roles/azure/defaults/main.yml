@@ -31,3 +31,6 @@ azure_wal_gb: 10
 azure_vm_disk_type: Standard_LRS
 azure_data_disk_type: "{{ azure_vm_disk_type }}"
 azure_wal_disk_type: "{{ azure_data_disk_type }}"
+azure_storage_account_name: "sa{{ azure_cluster_name }}"
+azure_storage_account_type: Standard_RAGRS
+azure_storage_container: "backup{{ azure_cluster_name }}"

@@ -5,3 +5,5 @@ azure_cluster_name: "{{ cluster_name }}"
 azure_resource_group: "rg_{{ azure_cluster_name }}"
 # to enable cleaning
 azure_allow_clean: true
+azure_storage_account_name: "sa{{ azure_cluster_name }}"
+azure_storage_container: "backup{{ azure_cluster_name }}"

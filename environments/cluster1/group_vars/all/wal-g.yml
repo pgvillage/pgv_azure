@@ -6,9 +6,6 @@ walg_bucket_ca_file: ~/.wal-g/certs/bucket_ca.crt
 walg_packages:
   - "wal-g-pg"
 
-#walg_aws_access_key: "{{ bucket_access_key }}"
-#walg_aws_secret_key: "{{ bucket_secret_key }}"
-#walg_aws_endpoint: "https://{{ groups['backup'][0] }}{{ bucket_server_addr }}"
 walg_pg_datadir: "{{stolon_data_dir }}/postgres"
 walg_pg_bindir: "{{ postgresql_bindir }}"
 walg_pg_hostname: "{{ postgresql_socketdir }}"
@@ -28,3 +25,9 @@ walg_postgresql_parameters:
   wal_level: archive
 
 walg_bucket_cert: "{{ certs.server.chain }}"
+
+walg_bucket_defaults:
+  WALG_AZ_PREFIX: "azure://{{ azure_storage_container }}"
+  AZURE_STORAGE_ACCOUNT: "{{ azure_storage_account_name }}"
+  AZURE_STORAGE_ACCESS_KEY: "{{ azure_backup_access_key }}"
+  #AZURE_SDK_GO_LOGGING: all
