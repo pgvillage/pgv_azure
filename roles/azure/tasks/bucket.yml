@@ -29,3 +29,4 @@
   vars:
     body:
       azure_backup_access_key: '{{ sainfo.storageaccounts[0].primary_endpoints.key }}'
+      azure_storage_account_name: '{{ azure_storage_account_name }}'

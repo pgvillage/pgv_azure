@@ -19,7 +19,7 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 echo Install ansible
 pip3 install --upgrade --user pip ansible azure-cli-core --upgrade cryptography azure-identity packaging
-~/.local/bin/ansible-galaxy collection install azure.azcollection
+~/.local/bin/ansible-galaxy collection install azure.azcollection --force
 pip3 install --user -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
 
 echo Install ansible
