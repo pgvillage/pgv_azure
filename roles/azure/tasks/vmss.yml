@@ -5,6 +5,7 @@
 
 - name: Create VM bastion
   azure_rm_virtualmachine:
+    accept_terms: yes
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_bastion_name }}"
     admin_username: "{{ ansible_user_id }}"

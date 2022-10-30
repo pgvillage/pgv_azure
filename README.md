@@ -3,10 +3,6 @@ Run a 100% Open Source awesome PostgreSQL solution
 
 ## TL;DR
 To get going on Azure:
-* Accept Rocky linux image terms (used by deployment of proxy and db vm's):
-```
-az vm image terms accept --urn erockyenterprisesoftwarefoundationinc1653071250513:rockylinux:free:latest
-```
 * Create an azure VM (this will be the bootstrap host to run Ansible creating the environments):
 ```
 az group create --name pgVillage --location westeurope
@@ -48,10 +44,6 @@ cd ~/git/pgvillage/
 ~/.local/bin/ansible-playbook -i environments/cluster1 functional-all.yml
 ```
 ## Alternate
-* Accept Rocky linux image terms (used by deployment of proxy and db vm's):
-```
-az vm image terms accept --urn erockyenterprisesoftwarefoundationinc1653071250513:rockylinux:free:latest
-```
 * Create a CentOS VM Ansible Control Node on Azure by following [this](https://docs.microsoft.com/en-us/azure/developer/ansible/install-on-linux-vm?tabs=azure-cli#install-ansible-on-an-azure-linux-virtual-machine).
 * After that you need to manually do all things in the bootstrap script (no script available yet).
 * Then you can create credentials, accept  and follow instructions as described above.
@@ -66,3 +58,7 @@ git pull
 ```
 * ./roles/anzure/defaults/main.yml has a value azure_storage_account_name which is derived from clustername and machine_id of controlnode. This means it is pretty much unique across azure (which is the idea), but also means it might change during reboots, and will change across ansible control nodes. For PRODUCTION always set this to a unique but hardcoded value insted!!!
 * When rerunning, the vmss module cries about 'The orchestration_mode parameter cannot be updated!'. This probably should be fixed by the ansible community
+* If the VM Scaleset uses a different image then the bastion, you need to accept Rocky linux image terms (e.a.)
+```
+az vm image terms accept --urn erockyenterprisesoftwarefoundationinc1653071250513:rockylinux:free:latest
+```
