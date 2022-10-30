@@ -1,9 +1,0 @@
----
-- name: "Gather facts on all pg servers"
-  hosts: hacluster
-  gather_facts: true
-
-- hosts:
-    - localhost
-  roles:
-    - chainsmith

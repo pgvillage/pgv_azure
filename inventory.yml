@@ -1,41 +1,9 @@
 ---
-- hosts: localhost
-  collections:
-    - azure.azcollection
-  tasks:
-    - name: Clean a resource group
-      local_action:
-        module: azure_rm_resourcegroup
-        name: "{{ azure_resource_group }}"
-        state: absent
-        force_delete_nonempty: "{{ azure_allow_clean }}"
-      when: azure_allow_clean
-    - name: clean certs from inventory
-      file:
-        dest: "{{ inventory_dir }}/group_vars/all/certs.yml"
-        state: absent
-      when: azure_allow_clean
-
-- hosts:
-    - localhost
-  collections:
-    - azure.azcollection
-  roles:
-    - azure
-
-- name: Pause
-  hosts: localhost
-  tasks:
-    - name: Pause for 60 seconds to start the vm's
-      ansible.builtin.pause:
-        seconds: 60
-
 - name: Setup ssh
   hosts:
     - _bastion
     - _postgres
   tasks:
-    - meta: refresh_inventory
     - name: Create .ssh/config entries
       blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item }}"
