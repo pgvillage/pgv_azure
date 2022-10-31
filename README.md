@@ -33,16 +33,11 @@ client_id=12ab34cd-56ef-78ab-90cd-1a2b3c4d5e6e
 secret=fK~8Q~anySecretAppliesHere~WhatEverWorks
 tenant=cdef7890-a4b5-5a5b-6b6c-9876543fedcb
 ```
-* Remove, create and generate certs
+* Create resources, generate certs and install VM's using Ansible
 ```
-cd ~/git/pgv_azure/
-~/.local/bin/ansible-playbook -i environments/cluster1 all.yml
+~/git/pgv_azure/create_new_cluster.sh
 ```
-* Now you can run ansible-playbook in the pgvillage repo to install pgvillage on teh newly created vms
-```
-cd ~/git/pgvillage/
-~/.local/bin/ansible-playbook -i environments/cluster1 functional-all.yml
-```
+
 ## Alternate
 * Create a CentOS VM Ansible Control Node on Azure by following [this](https://docs.microsoft.com/en-us/azure/developer/ansible/install-on-linux-vm?tabs=azure-cli#install-ansible-on-an-azure-linux-virtual-machine).
 * After that you need to manually do all things in the bootstrap script (no script available yet).
