@@ -1,0 +1,47 @@
+---
+# defaults file for chainsmith
+
+chainsmith_cmd: "~/.local/bin/chainsmith"
+
+chainsmith_subject:
+  C:  NL/postalCode=3721 MA
+  ST: Utrecht
+  L:  Bilthoven/street=Antonie v Leeuwenhoekln 9
+  O:  Rijksinstituut voor Volksgezondheid en Milieu (RIVM)
+  OU: Postgres bouwblok
+  CN: postgres
+
+chainsmith_tmpdir: ""
+#chainsmith_tmpdir: /tmp/certs/postgres
+
+chainsmith_server_intermediate:
+  name: server
+  keyUsages:
+    - keyEncipherment
+    - dataEncipherment
+    - digitalSignature
+  extendedKeyUsages:
+    - serverAuth
+  servers: "{{ chainsmith_servers }}"
+
+chainsmith_client_intermediate:
+  name: client
+  clients:
+    - postgres
+    - application
+    - avchecker
+    - pgquartz
+    - pgfga
+  keyUsages:
+    - keyEncipherment
+    - dataEncipherment
+    - digitalSignature
+  extendedKeyUsages:
+    - clientAuth
+
+chainsmith_body:
+  subject: "{{ chainsmith_subject }}"
+  tmpdir: "{{ chainsmith_tmpdir }}"
+  intermediates:
+    - "{{ chainsmith_server_intermediate }}"
+    - "{{ chainsmith_client_intermediate }}"

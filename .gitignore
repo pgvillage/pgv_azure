@@ -1,0 +1,3 @@
+environments/cluster1/group_vars/all/cert*s.yml
+environments/cluster1/group_vars/_postgres/
+environments/cluster1/group_vars/all/azure_vip.yml

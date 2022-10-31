@@ -1,0 +1,28 @@
+---
+- name: Setup ssh
+  hosts:
+    - _bastion
+    - _postgres
+  tasks:
+    - name: Create .ssh/config entries
+      blockinfile:
+        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item }}"
+        content: '{{ block }}'
+        dest: "~/.ssh/config"
+      delegate_to: localhost
+      vars:
+        block: |
+          Host {{ item }}
+            User azureuser
+            HostName {{ host_ip }}
+            ProxyCommand ssh {{ bastion_ip }} -W %h:%p
+            StrictHostKeyChecking no
+        bastion_host: "{{ groups._bastion[0] }}"
+        bastion_ip: "{{ hostvars[bastion_host].ansible_host }}"
+        host_ip: "{{ hostvars[item].ansible_facts.all_ipv4_addresses[0] }}"
+      loop: "{{ groups._postgres }}"
+
+- hosts:
+    - localhost
+  roles:
+    - chainsmith
