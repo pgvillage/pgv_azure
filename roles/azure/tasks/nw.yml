@@ -4,17 +4,21 @@
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_nw_name }}"
     address_prefixes: "10.0.0.0/16"
+
 - name: Add subnet
   azure_rm_subnet:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_subnet_name }}"
     address_prefix: "10.0.1.0/24"
     virtual_network: "{{ azure_nw_name }}"
+
 - name: Create public IP address
   azure_rm_publicipaddress:
     resource_group: "{{ azure_resource_group }}"
     allocation_method: Static
     name: "{{ azure_vip_name }}"
+  register: azure_vip
+
 - name: Create Network Security Group that allows PostgreSQL traffic and ssh
   azure_rm_securitygroup:
     resource_group: "{{ azure_resource_group }}"
@@ -85,3 +89,13 @@
         backend_port: 5432
         load_distribution: Default
         probe: "probe_{{ azure_lb_name }}_2"
+
+- name: Store vip in inventory
+  copy:
+    content: |
+      ---
+      {{ body | to_nice_yaml(indent=8, width=1337) }}
+    dest: "{{ inventory_dir }}/group_vars/_postgres/lb_ip.yml"
+  vars:
+    body:
+      azure_vip_ip: '{{ azure_vip.state.ip_address }}'

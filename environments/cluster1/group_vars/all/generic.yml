@@ -44,3 +44,4 @@ stolon_pg_hba:
   - local all all ident
   - hostssl postgres avchecker samenet cert
   - hostssl all all samenet cert
+  - "hostssl all all {{ azure_vip_ip }}/32 cert"
