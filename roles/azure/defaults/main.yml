@@ -1,6 +1,7 @@
 ---
 # defaults file for azure
 azure_cluster_name: cluster1
+azure_cluster_unique_name: "{{ azure_cluster_name }}{{ ansible_machine_id | truncate(10, true, '') }}"
 azure_resource_group: "rg_{{ azure_cluster_name }}"
 azure_bastion_name: "bastion{{ azure_cluster_name }}"
 azure_bastion_vm_size: Standard_B1ls
@@ -24,6 +25,8 @@ azure_lbbe_name: "lbbe_{{ azure_cluster_name }}"
 azure_nw_name: "nw_{{ azure_cluster_name }}"
 azure_subnet_name: "sn_{{ azure_cluster_name }}"
 azure_vip_name: "vip_{{ azure_cluster_name }}"
+azure_vip_dns_name: "{{ azure_cluster_unique_name }}"
+azure_vip_dns_fqdn: "{{ azure_vip_dns_name }}.{{ azure_location }}.cloudapp.azure.com"
 azure_sg_name: "sg_{{ azure_cluster_name }}"
 azure_location: westeurope
 azure_data_gb: 100
@@ -33,6 +36,6 @@ azure_data_disk_type: "{{ azure_vm_disk_type }}"
 azure_wal_disk_type: "{{ azure_data_disk_type }}"
 # azure_storage_account_name must be unique across all of azure, therefore using a truncated version of machine_id
 # of the ansible controlnode, which is a terrible idea for production, but at least is pseudorandom for demo purpose
-azure_storage_account_name: "sa{{ azure_cluster_name }}{{ ansible_machine_id | truncate(10, true, '') }}"
+azure_storage_account_name: "sa{{ azure_cluster_unique_name }}"
 azure_storage_account_type: Standard_RAGRS
 azure_storage_container: "backup{{ azure_cluster_name }}"

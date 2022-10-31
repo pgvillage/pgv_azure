@@ -22,7 +22,7 @@ postgresql_rw_port: 5432
 postgresql_proxy_port: 25432
 
 # VIP address
-postgresql_vip_fqdn: "{{ cluster_name }}.pgvillage.xample.com"
+postgresql_vip_fqdn: "{{ azure_vip_dns_fqdn }}"
 postgresql_vip_ip: "1.2.3.4"
 postgresql_subnet: "24"
 
