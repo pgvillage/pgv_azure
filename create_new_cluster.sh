@@ -13,7 +13,7 @@ CLUSTER=${1:-cluster1}
 cd ~/git/pgv_azure && cluster_exists
 time ansible-playbook -i environments/cluster1 create_resources.yml
 echo "Sleeping 60 sec. for all scaleset vms to come alive"
-sleep 60
+sleep 90
 time ansible-playbook -i environments/cluster1 inventory.yml
 
 cd ~/git/pgvillage && cluster_exists
