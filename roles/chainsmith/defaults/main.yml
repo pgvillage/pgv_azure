@@ -24,14 +24,18 @@ chainsmith_server_intermediate:
     - serverAuth
   servers: "{{ chainsmith_servers }}"
 
+chainsmith_internal_clients:
+ - postgres
+ - application
+ - avchecker
+ - pgquartz
+ - pgfga
+
+chainsmith_external_clients: []
+
 chainsmith_client_intermediate:
   name: client
-  clients:
-    - postgres
-    - application
-    - avchecker
-    - pgquartz
-    - pgfga
+  clients: "{{ chainsmith_internal_clients + chainsmith_external_clients }}"
   keyUsages:
     - keyEncipherment
     - dataEncipherment

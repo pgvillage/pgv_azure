@@ -1,8 +1,8 @@
 ---
 # tasks file for chainsmith
-#- name: debug
-#  debug:
-#    msg: "{{ chainsmith_servers }}"
+- name: debug
+  debug:
+    msg: "{{ chainsmith_servers }}"
 
 - name: install
   import_tasks: install.yml
