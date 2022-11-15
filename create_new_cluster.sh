@@ -11,10 +11,10 @@ function cluster_exists() {
 
 CLUSTER=${1:-cluster1}
 cd ~/git/pgv_azure && cluster_exists
-time ansible-playbook -i environments/cluster1 create_resources.yml
+time ansible-playbook -i environments/${CLUSTER} create_resources.yml
 echo "Sleeping 60 sec. for all scaleset vms to come alive"
 sleep 90
-time ansible-playbook -i environments/cluster1 inventory.yml
+time ansible-playbook -i environments/${CLUSTER} inventory.yml
 
 cd ~/git/pgvillage && cluster_exists
-time ansible-playbook -i environments/cluster1 functional-all.yml
+time ansible-playbook -i environments/${CLUSTER} functional-all.yml
