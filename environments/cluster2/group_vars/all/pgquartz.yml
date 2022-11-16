@@ -1,0 +1,9 @@
+---
+pgquartz_client_cert: "{{ certs.client.pgquartz }}"
+pgquartz_client_chain: "{{ certs.client.chain }}"
+pgquartz_client_key: "{{ private_keys.client.pgquartz }}"
+
+pgquartz_scheduler: cron
+
+pgquartz_cron_mailto: "{{ cron_mailto }}"
+pgquartz_jobsdir: "{{ pgquartz_configdir }}/jobs/vcbe_jobs"
