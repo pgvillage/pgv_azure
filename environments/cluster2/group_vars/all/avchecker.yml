@@ -28,6 +28,4 @@ avchecker_defaults:
     PGDATABASE: postgres
     PGSSLMODE: "verify-full"
 
-avchecker_root_cert: "{{ certs.server.chain }}"
-avchecker_client_cert: "{{ certs.client.avchecker }}"
-avchecker_client_key: "{{ private_keys.client.avchecker }}"
+avchecker_cert_managed: false

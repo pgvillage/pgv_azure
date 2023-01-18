@@ -25,7 +25,12 @@ pip3 install --user -r ~/.ansible/collections/ansible_collections/azure/azcollec
 echo Install ansible
 pip3 install --upgrade --user chainsmith
 
+echo Install az
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
 echo Setup ssh localhost
 [ -f ~/.ssh/id_rsa.pub ] || ssh-keygen -q -f ~/.ssh/id_rsa -P ""
 grep -q $USER@$HOSTNAME ~/.ssh/authorized_keys || cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ssh-keygen -H -F localhost > /dev/null || ssh-keyscan -H localhost >> ~/.ssh/known_hosts
+
+which ansible-playbook > /dev/null || echo 'Please reload your profile to have ansible-playbook in your path (probably logout/login or `source ~/.profile`)'

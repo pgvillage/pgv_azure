@@ -17,12 +17,13 @@ stolon_wal_dir_mp: "{{ postgresql_wal_mountpoint }}"
 
 stolon_pg_cron_mailto: "{{ cron_mailto }}"
 
-stolon_client_cert: "{{ certs.client.postgres }}"
-stolon_client_chain: "{{ certs.client.chain }}"
-stolon_client_key: "{{ private_keys.client.postgres }}"
-stolon_server_cert: "{{ certs.server[ansible_fqdn] }}"
-stolon_server_key: "{{ private_keys.server[ansible_fqdn] }}"
-stolon_server_chain: "{{ certs.server.chain }}"
+stolon_cert_managed: false
+#stolon_client_cert: "{{ certs.client.postgres }}"
+#stolon_client_chain: "{{ certs.client.chain }}"
+#stolon_client_key: "{{ private_keys.client.postgres }}"
+#stolon_server_cert: "{{ certs.server[ansible_fqdn] }}"
+#stolon_server_key: "{{ private_keys.server[ansible_fqdn] }}"
+#stolon_server_chain: "{{ certs.server.chain }}"
 
 # We installeren stolon middels een rpm
 stolon_package_names:

@@ -1,5 +1,0 @@
----
-# tasks file for chainsmith
-- name: Install chainsmith python package for easy cert generation
-  ansible.builtin.pip:
-    name: chainsmith

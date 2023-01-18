@@ -1,7 +1,5 @@
 ---
-pgquartz_client_cert: "{{ certs.client.pgquartz }}"
-pgquartz_client_chain: "{{ certs.client.chain }}"
-pgquartz_client_key: "{{ private_keys.client.pgquartz }}"
+pgquartz_cert_managed: false
 
 pgquartz_scheduler: cron
 
