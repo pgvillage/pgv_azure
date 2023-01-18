@@ -31,3 +31,6 @@ walg_bucket_defaults:
   AZURE_STORAGE_ACCOUNT: "{{ azure_storage_account_name }}"
   AZURE_STORAGE_ACCESS_KEY: "{{ azure_backup_access_key }}"
   #AZURE_SDK_GO_LOGGING: all
+
+walg_cert_folders: {}
+walg_cert_files: {}
