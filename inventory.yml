@@ -22,8 +22,3 @@
         bastion_host: "{{ groups._bastion[0] }}"
         bastion_ip: "{{ hostvars[bastion_host].ansible_host }}"
         host_ip: "{{ hostvars[inventory_hostname].ansible_facts.all_ipv4_addresses[0] }}"
-
-- hosts:
-    - localhost
-  roles:
-    - chainsmith
