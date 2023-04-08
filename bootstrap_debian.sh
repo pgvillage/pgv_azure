@@ -3,13 +3,22 @@ set -e
 
 echo Setup git
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-sudo apt-get update -y && sudo apt-get install git -y
+sudo apt-get update -y && sudo apt-get install -y git apt pkg-config libssl-dev
 if [ ! -d ~/git/pgv_azure ]; then
   mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgv_azure
 fi
 if [ ! -d ~/git/pgvillage ]; then
   mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgvillage && cd pgvillage && ln -s ~/git/pgv_azure/environments
 fi
+
+echo Install rust
+if ! rustup update; then
+  cd $(MKTEMP -d)
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
+  bash ./sh.rustup.rs -y
+  export PATH=$HOME/.cargo/bin:$PATH
+fi
+
 cd
 
 echo Install python3
