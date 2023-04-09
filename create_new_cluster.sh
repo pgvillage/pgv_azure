@@ -15,6 +15,7 @@ time ansible-playbook -i environments/${CLUSTER} create_resources.yml
 echo "Sleeping 90 sec. for all scaleset vms to come alive"
 sleep 90
 time ansible-playbook -i environments/${CLUSTER} inventory.yml
+time ansible-playbook -i environments/${CLUSTER} mount.yml
 
 cd ~/git/pgvillage && cluster_exists
 time ansible-playbook -i environments/${CLUSTER} functional-all.yml
