@@ -55,7 +55,6 @@ uninstall_linux_packages:
   - "postgresql{{ linux_pg_version|replace('.','') }}"
   - "postgresql{{ linux_pg_version|replace('.','') }}-server"
   - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
   - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
   - "postgresql{{ linux_pg_version|replace('.','') }}-libs"
   - "stolon"
