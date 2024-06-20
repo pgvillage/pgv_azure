@@ -24,12 +24,18 @@
     image: "{{ azure_bastion_image }}"
   register: bastion
 
+- name: get ip info
+  azure.azcollection.azure_rm_publicipaddress_info:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ bastion.ansible_facts.azure_vm.network_profile.network_interfaces[0].properties.ip_configurations[0].public_ip_address.name }}"
+  register: bastion_ip
+
 - name: Create VM scaleset
   azure_rm_virtualmachinescaleset:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_vmss_name }}"
     admin_username: "{{ ansible_user_id }}"
-    single_placement_group: true
+    single_placement_group: false
     tags:
       applicationRole: postgres
     vm_size: "{{azure_vmss_vm_size}}"
@@ -40,7 +46,6 @@
     ssh_public_keys:
       - path: /home/azureuser/.ssh/authorized_keys
         key_data: "{{ public_ssh.stdout }}"
-    upgrade_policy: Manual
     tier: Standard
     managed_disk_type: "{{ azure_vm_disk_type }}"
     os_disk_caching: ReadWrite
@@ -57,8 +62,8 @@
 
 - name: Set bastion as proxy for _postgres
   copy:
-    content: '{{ body | to_nice_yaml(indent=8, width=1337) }}'
+    content: "{{ body | to_nice_yaml(indent=8, width=1337) }}"
     dest: "{{ inventory_dir }}/group_vars/_postgres/proxy.yml"
   vars:
     body:
-      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ProxyCommand="ssh {{ bastion.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }} -W %h:%p -o StrictHostKeyChecking=no"'
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ProxyCommand="ssh {{ bastion_ip.publicipaddresses[0].ip_address }} -W %h:%p -o StrictHostKeyChecking=no"'

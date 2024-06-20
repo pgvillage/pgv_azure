@@ -17,6 +17,7 @@
     resource_group: "{{ azure_resource_group }}"
     allocation_method: Static
     name: "{{ azure_vip_name }}"
+    aku: Standard
     domain_name: "{{ azure_vip_dns_name }}"
   register: azure_vip
 
@@ -49,6 +50,7 @@
   azure_rm_loadbalancer:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_lb_name }}"
+    sku: Standard
     location: "{{ azure_location }}"
     frontend_ip_configurations:
       - name: "{{ azure_lbfe_name }}"
@@ -99,5 +101,5 @@
     dest: "{{ inventory_dir }}/group_vars/all/azure_vip.yml"
   vars:
     body:
-      azure_vip_ip: '{{ azure_vip.state.ip_address }}'
+      azure_vip_ip: "{{ azure_vip.state.ip_address }}"
       azure_vip_dns_fqdn: "{{ azure_vip_dns_fqdn }}"
