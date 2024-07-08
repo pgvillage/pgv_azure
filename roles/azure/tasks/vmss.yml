@@ -32,6 +32,7 @@
 
 - name: Create VM scaleset
   azure_rm_virtualmachinescaleset:
+    upgrade_policy: "Automatic"
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_vmss_name }}"
     admin_username: "{{ ansible_user_id }}"
