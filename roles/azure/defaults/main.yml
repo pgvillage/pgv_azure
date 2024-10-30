@@ -10,15 +10,39 @@ azure_bastion_plan: "{{ azure_vmss_plan }}"
 azure_vmss_name: "vmss{{ cluster_name }}"
 azure_vmss_vm_size: Standard_DS1_v2
 azure_vmss_vm_count: "3"
-azure_vmss_image:
-  offer: rockylinux
-  publisher: erockyenterprisesoftwarefoundationinc1653071250513
-  version: latest
-  sku: free
+azure_vmss_image: '{{azure_vmss_images[2]}}'
+
+azure_vmss_images:
+- architecture: x64
+  offer: rockylinux-x86_64
+  publisher: resf
+  sku: 8-base
+  urn: resf:rockylinux-x86_64:8-base:8.9.20231119
+  version: 8.9.20231119
+- architecture: x64
+  offer: rockylinux-x86_64
+  publisher: resf
+  sku: 8-lvm
+  urn: resf:rockylinux-x86_64:8-lvm:8.9.20231119
+  version: 8.9.20231119
+- architecture: x64
+  offer: rockylinux-x86_64
+  publisher: resf
+  sku: 9-base
+  urn: resf:rockylinux-x86_64:9-base:9.3.20231113
+  version: 9.3.20231113
+- architecture: x64
+  offer: rockylinux-x86_64
+  publisher: resf
+  sku: 9-lvm
+  urn: resf:rockylinux-x86_64:9-lvm:9.3.20231113
+  version: 9.3.20231113
+
 azure_vmss_plan:
-  name: "free"
-  product: "rockylinux"
-  publisher: "erockyenterprisesoftwarefoundationinc1653071250513"
+  name: 9-base
+  product: rockylinux-x86_64
+  publisher: resf
+
 azure_lb_name: "lb_{{ azure_cluster_name }}"
 azure_lbfe_name: "lbfe_{{ azure_cluster_name }}"
 azure_lbbe_name: "lbbe_{{ azure_cluster_name }}"
