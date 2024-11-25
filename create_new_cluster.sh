@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 function cluster_exists() {
   if [ ! -d "environments/${CLUSTER}" ]; then
@@ -8,8 +8,9 @@ function cluster_exists() {
   fi
 }
 
-
-CLUSTER=${1:-cluster1}
+if [ -z "${CLUSTER}" ]; then
+  CLUSTER=${1:-cluster1}
+fi
 cd ~/git/pgv_azure && cluster_exists
 time ansible-playbook -i environments/${CLUSTER} create_resources.yml
 echo "Sleeping 90 sec. for all scaleset vms to come alive"
