@@ -16,6 +16,7 @@ walg_retention_days: 7
 # Used by nagios role to automatically set monitoring defaults
 postgresql_wal_mountpoint: /data/postgres/wal
 postgresql_data_mountpoint: /data/postgres/data
+server_cert_path: "{{ postgresql_data_mountpoint }}/certs"
 
 postgresql_ro_port: 5433
 postgresql_rw_port: 5432
