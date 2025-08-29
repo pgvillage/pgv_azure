@@ -56,6 +56,28 @@ tenant=cdef7890-a4b5-5a5b-6b6c-9876543fedcb
 - After that you need to manually do all things in the bootstrap script (no script available yet).
 - Then you can create credentials, accept and follow instructions as described above.
 
+## Using other images
+
+1. Make sure you find the publisher. We use [resf](https://forums.rockylinux.org/t/rocky-linux-images-on-azure-important-update/13721) (Rocky Linux) in these examples:
+
+```
+az vm image list --output table --all --publisher resf
+```
+
+2. change the inventory (roles/azure/defaults/main.yml) to use this VM as bastion and/or vmss (replace fields in [] with corresponding columns of command)
+
+```
+azure_vmss_image:
+  offer: [Offer]
+  publisher: [Publisher]
+  version: [Version]
+  sku: [Sku]
+azure_vmss_plan:
+  name: [Sku]
+  product: [Offer]
+  publisher: [Publisher]
+```
+
 ## Known issues and quirks
 
 - VMSize B1ls seems too small for pgVControl. Running with B1s seems to work good ATM.
@@ -72,5 +94,5 @@ git pull
 - If the VM Scaleset uses a different image then the bastion, you need to accept Rocky linux image terms (e.a.)
 
 ```
-az vm image terms accept --urn erockyenterprisesoftwarefoundationinc1653071250513:rockylinux:free:latest
+az vm image terms accept --urn resf:rockylinux-x86_64:9-base:9.6.20250531
 ```
