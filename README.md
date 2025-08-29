@@ -33,16 +33,7 @@ ssh azureuser@$(az vm show -d -g pgVillage -n pgVControl --query publicIps -o ts
 curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_debian.sh | bash
 ```
 
-- log in to azure: `az login` or alternatively create a credentials file in ~/.azure/credentials with the required settings (subscription_id, client_id, secret, tenant). Example:
-
-```
-cat ~/.azure/credentials
-[default]
-subscription_id=abcd1234-98fe-1a2b-f9e8-567cde123abc
-client_id=12ab34cd-56ef-78ab-90cd-1a2b3c4d5e6e
-secret=fK~8Q~anySecretAppliesHere~WhatEverWorks
-tenant=cdef7890-a4b5-5a5b-6b6c-9876543fedcb
-```
+- log in to azure: `az login`.
 
 - Create resources, generate certs and install VM's using Ansible
 
@@ -55,6 +46,28 @@ tenant=cdef7890-a4b5-5a5b-6b6c-9876543fedcb
 - Create a CentOS VM Ansible Control Node on Azure by following [this](https://docs.microsoft.com/en-us/azure/developer/ansible/install-on-linux-vm?tabs=azure-cli#install-ansible-on-an-azure-linux-virtual-machine).
 - After that you need to manually do all things in the bootstrap script (no script available yet).
 - Then you can create credentials, accept and follow instructions as described above.
+
+## Using other images
+
+1. Make sure you find the publisher. We use [resf](https://forums.rockylinux.org/t/rocky-linux-images-on-azure-important-update/13721) (Rocky Linux) in these examples:
+
+```
+az vm image list --output table --all --publisher resf
+```
+
+2. change the inventory (roles/azure/defaults/main.yml) to use this VM as bastion and/or vmss (replace fields in [] with corresponding columns of command)
+
+```
+azure_vmss_image:
+  offer: [Offer]
+  publisher: [Publisher]
+  version: [Version]
+  sku: [Sku]
+azure_vmss_plan:
+  name: [Sku]
+  product: [Offer]
+  publisher: [Publisher]
+```
 
 ## Known issues and quirks
 
@@ -72,5 +85,5 @@ git pull
 - If the VM Scaleset uses a different image then the bastion, you need to accept Rocky linux image terms (e.a.)
 
 ```
-az vm image terms accept --urn erockyenterprisesoftwarefoundationinc1653071250513:rockylinux:free:latest
+az vm image terms accept --urn resf:rockylinux-x86_64:9-base:9.6.20250531
 ```

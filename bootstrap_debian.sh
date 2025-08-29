@@ -1,6 +1,17 @@
 #!/bin/bash
 set -e
 
+# hotfix for bullsey
+echo 'deb http://debian-archive.trafficmanager.net/debian bullseye main
+deb-src http://debian-archive.trafficmanager.net/debian bullseye main
+#deb http://debian-archive.trafficmanager.net/debian-security bullseye-security main
+deb http://security.debian.org/debian-security bullseye-security main
+deb-src http://debian-archive.trafficmanager.net/debian-security bullseye-security main
+deb http://debian-archive.trafficmanager.net/debian bullseye-updates main
+deb-src http://debian-archive.trafficmanager.net/debian bullseye-updates main
+#deb http://debian-archive.trafficmanager.net/debian bullseye-backports main
+#deb-src http://debian-archive.trafficmanager.net/debian bullseye-backports main' | sudo bash -c 'cat >/etc/apt/sources.list'
+
 echo Setup git
 ssh-keyscan -H github.com >>~/.ssh/known_hosts
 sudo apt-get update -y && sudo apt-get install -y git apt pkg-config libssl-dev
@@ -8,15 +19,16 @@ if [ ! -d ~/git/pgv_azure ]; then
 	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgv_azure
 fi
 if [ ! -d ~/git/pgvillage ]; then
-	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgvillage && cd pgvillage && ln -s ~/git/pgv_azure/environments
+	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgvillage && cd pgvillage && ln -s ~/git/pgv_azure/environments .
 fi
 
 echo Install rust
 if ! rustup update; then
-	cd $(MKTEMP -d)
+	cd "$(mktemp -d)"
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >sh.rustup.rs
 	bash ./sh.rustup.rs -y
 	export PATH=$HOME/.cargo/bin:$PATH
+	cd -
 fi
 
 cd
@@ -36,10 +48,13 @@ pip3 install --upgrade --user chainsmith
 
 echo Install az
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+# workaround regarding `Can't get attribute 'NormalizedResponse' on <module 'msal.throttled_http_client'`
+az config set core.use_msal_http_cache=false
 
 echo Setup ssh localhost
 [ -f ~/.ssh/id_rsa.pub ] || ssh-keygen -q -f ~/.ssh/id_rsa -P ""
-grep -q $USER@$HOSTNAME ~/.ssh/authorized_keys || cat ~/.ssh/id_rsa.pub >>~/.ssh/authorized_keys
+grep -q "$USER@$HOSTNAME" ~/.ssh/authorized_keys || cat ~/.ssh/id_rsa.pub >>~/.ssh/authorized_keys
 ssh-keygen -H -F localhost >/dev/null || ssh-keyscan -H localhost >>~/.ssh/known_hosts
 
+# shellcheck disable=SC2016
 which ansible-playbook >/dev/null || echo 'Please reload your profile to have ansible-playbook in your path (probably logout/login or `source ~/.profile`)'
