@@ -14,7 +14,7 @@ deb-src http://debian-archive.trafficmanager.net/debian bullseye-updates main
 
 echo Setup git
 ssh-keyscan -H github.com >>~/.ssh/known_hosts
-sudo apt-get update -y && sudo apt-get install -y git apt pkg-config libssl-dev
+sudo apt-get update -y && sudo apt-get install -y git apt pkg-config libssl-dev jq
 if [ ! -d ~/git/pgv_azure ]; then
 	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgv_azure
 fi
@@ -43,8 +43,13 @@ pip3 install --upgrade --user pip ansible azure-cli-core --upgrade cryptography 
 ~/.local/bin/ansible-galaxy collection install azure.azcollection
 pip3 install --user -r ~/.local/lib/python3.9/site-packages/ansible_collections/azure/azcollection/requirements-azure.txt
 
-echo Install ansible
-pip3 install --upgrade --user chainsmith
+echo Install chainsmith
+cd "$(mktemp -d)"
+RELEASE="$(curl 'https://api.github.com/repos/pgvillage-tools/chainsmith/releases/latest' | jq -r ".tag_name")"
+curl -L -o chainsmith.tar.gz "https://github.com/pgvillage-tools/chainsmith/releases/download/${RELEASE}/chainsmith_${RELEASE}_linux_amd64.tar.gz"
+tar -xvf chainsmith.tar.gz
+sudo mv chainsmith /usr/local/bin
+cd
 
 echo Install az
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
