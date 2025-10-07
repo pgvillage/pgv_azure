@@ -7,7 +7,7 @@ cluster_name: "{{ inventory_dir | basename }}"
 
 # Set the PostgreSQL version to be installed.
 # Note, the rpm packages should be brought available for this version for RHEL8
-postgresql_version: 14
+postgresql_version: 17
 
 # How long do we want to retain our backups
 walg_retention_days: 7
