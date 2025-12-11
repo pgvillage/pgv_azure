@@ -41,6 +41,8 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 echo Install ansible
 pip3 install --upgrade --user pip ansible azure-cli-core --upgrade cryptography azure-identity packaging netaddr msgraph-sdk
 ~/.local/bin/ansible-galaxy collection install azure.azcollection
+~/.local/bin/ansible-galaxy role       install --role-file         ~/git/pgvillage/requirements.yml
+~/.local/bin/ansible-galaxy collection install --requirements-file ~/git/pgvillage/requirements.yml
 pip3 install --user -r ~/.local/lib/python3.9/site-packages/ansible_collections/azure/azcollection/requirements-azure.txt
 
 echo Install chainsmith
