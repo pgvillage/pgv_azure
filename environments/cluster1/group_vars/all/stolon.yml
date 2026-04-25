@@ -2,7 +2,7 @@
 stolon_cluster_name: '{{ cluster_name }}'
 stolon_pg_version: '{{ postgresql_version }}'
 stolon_data_dir: '{{ postgresql_data_mountpoint }}/stolon'
-stolon_pg_certdir: '/data/postgres/data/certs'
+stolon_pg_certdir: '{{ postgresql_data_mountpoint }}/certs'
 stolon_config_dir: '{{ postgresql_data_mountpoint }}'
 stolon_pg_bin_path: '{{ postgresql_bindir }}'
 stolon_wal_dir: '{{ postgresql_wal_mountpoint }}/stolon'
