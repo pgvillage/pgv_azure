@@ -14,10 +14,10 @@ uninstall_file_list:
   - /var/log/pgquartz
   - /var/log/postgresql
   - /var/log/wal-g
-  - /data/postgres/data/stolon
-  - /data/postgres/data/stolon_custom_config.yml
-  - /data/postgres/data/certs
-  - /data/postgres/wal/stolon
+  - "{{ postgresql_data_mountpoint }}/stolon"
+  - "{{ postgresql_data_mountpoint }}/stolon_custom_config.yml"
+  - "{{ postgresql_data_mountpoint }}/certs"
+  - "{{ postgresql_wal_mountpoint }}/stolon"
   - /etc/systemd/system/avchecker@.service
   - /etc/systemd/system/etcd.service
   - /etc/systemd/system/stolon-keeper.service
