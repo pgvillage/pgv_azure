@@ -37,8 +37,11 @@ To get going on Azure:
 
 - The VM will use the azure API to create database VM's t will.
   Log in to azure on the VM too: `az login`.
+  **note** at the time of writing this doc, azure-cli was not compatiable with the azure_rm modules.
+  Therefore we created `az_to_env`, which would create another virtual env for `az`, download it, login and then generate azure_creds.env.
+  After which you can run `. azure_creds.env`, and then run ansible with azure authentication.
 
-- Further deployment can be donw ith:
+- Further deployment can be done with:
   ```bash
   ~/git/pgv_azure/create_new_cluster.sh
   ```
