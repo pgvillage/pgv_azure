@@ -7,39 +7,41 @@ Run a 100% Open Source awesome PostgreSQL solution
 To get going on Azure:
 
 - Create an azure VM (this will be the bootstrap host to run Ansible creating the environments):
-
-```
-az group create --name pgVillage --location westeurope
-az vm create \
-  --resource-group pgVillage \
-  --name pgVControl \
-  --image Debian11 \
-  --admin-username azureuser \
-  --generate-ssh-keys \
-  --tags applicationRole=ansible_runner
-```
-
-P.s. VMSize B1ls seems too small. Running with B1s seems to work good ATM.
+  ```
+  az group create --name pgVillage --location westeurope
+  az vm create \
+    --resource-group pgVillage \
+    --name pgVControl \
+    --image Debian11 \
+    --admin-username azureuser \
+    --generate-ssh-keys \
+    --tags applicationRole=ansible_runner
+  ```
+  **Notes**:
+  - VMSize B1ls seems too small. Running with B1s works properly.
+  - You can also use this image: `--image susellc:opensuse-leap-x86-64:gen2:2026.04.01`
 
 - log into it:
-
-```
-ssh azureuser@$(az vm show -d -g pgVillage -n pgVControl --query publicIps -o tsv)
-```
+  ```
+  ssh azureuser@$(az vm show -d -g pgVillage -n pgVControl --query publicIps -o tsv)
+  ```
 
 - bootstrap it into aPgVillage Ansible Control Node
+  ```bash
+  curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_debian.sh | bash
+  ```
+  or for suse:
+  ```bash
+  curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_suse.sh | bash
+  ```
 
-```
-curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_debian.sh | bash
-```
+- The VM will use the azure API to create database VM's t will.
+  Log in to azure on the VM too: `az login`.
 
-- log in to azure: `az login`.
-
-- Create resources, generate certs and install VM's using Ansible
-
-```
-~/git/pgv_azure/create_new_cluster.sh
-```
+- Further deployment can be donw ith:
+  ```bash
+  ~/git/pgv_azure/create_new_cluster.sh
+  ```
 
 ## Alternate
 
@@ -49,25 +51,32 @@ curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_debian
 
 ## Using other images
 
-1. Make sure you find the publisher. We use [resf](https://forums.rockylinux.org/t/rocky-linux-images-on-azure-important-update/13721) (Rocky Linux) in these examples:
+1. Find the publisher, the offer and the urn of the image to use:
+   (in this example we use [resf](https://forums.rockylinux.org/t/rocky-linux-images-on-azure-important-update/13721))
+   ```bash
+   az vm image list-publishers --location westeurope --output table
+   az vm image list --output table --all --publisher resf
+   az vm image list --publisher resf --offer rockylinux-aarch64 --all --output table
+   ```
 
-```
-az vm image list --output table --all --publisher resf
-```
+3. Accept the license:
+   ```bash
+   az vm image terms accept --publisher resf --offer rockylinux-x86_64 --plan 9-lvm
+   ```
 
-2. change the inventory (roles/azure/defaults/main.yml) to use this VM as bastion and/or vmss (replace fields in [] with corresponding columns of command)
-
-```
-azure_vmss_image:
-  offer: [Offer]
-  publisher: [Publisher]
-  version: [Version]
-  sku: [Sku]
-azure_vmss_plan:
-  name: [Sku]
-  product: [Offer]
-  publisher: [Publisher]
-```
+4. change the inventory to use this VM as bastion and/or vmss (replace fields in [] with corresponding columns of command).
+   (See [environments/cluster2/group_vars/all/azure.yml](environments/cluster2/group_vars/all/azure.yml) for an example) 
+   ```
+   azure_vmss_image:
+     offer: [Offer]
+     publisher: [Publisher]
+     version: [Version]
+     sku: [Sku]
+   azure_vmss_plan:
+     name: [Sku]
+     product: [Offer]
+     publisher: [Publisher]
+   ```
 
 ## Known issues and quirks
 
