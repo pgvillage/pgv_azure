@@ -35,6 +35,11 @@ To get going on Azure:
   curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_suse.sh | bash
   ```
 
+  **Note** that for Suse there is less builds on download.postgresql.org available
+  (at the time of this writing, this is only for leap-16 on x86_64 for openSuse, and
+  sles15/16 on x86_64 for Suse). We only build rpm's for leap/16 on x86_64. If you need
+  other architectures, or specific Suse builds please reach out to us.
+
 - The VM will use the azure API to create database VM's t will.
   Log in to azure on the VM too: `az login`.
   **note** at the time of writing this doc, azure-cli was not compatiable with the azure_rm modules.
