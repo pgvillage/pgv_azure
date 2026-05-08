@@ -104,3 +104,10 @@ git pull
 ```
 az vm image terms accept --urn resf:rockylinux-x86_64:9-base:9.6.20250531
 ```
+
+## Clusters
+
+Please check descriptions on the deployments that we have pre-configured for you:
+- [cluster1](./environments/cluster1/README.md)
+- [cluster2](./environments/cluster2/README.md)
+- [cluster3](./environments/cluster3/README.md)
