@@ -13,3 +13,5 @@ linux_packages:
     - 'wal-g-pg'
     - 'etcd'
     - python3-psycopg2
+  localhosts:
+    - chainsmith

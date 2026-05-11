@@ -1,3 +1,4 @@
 environments/*/group_vars/all/cert*s.yml
 environments/*/group_vars/all/azure_vip.yml
 environments/*/group_vars/_postgres/
+*.env

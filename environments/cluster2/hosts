@@ -1,6 +1,11 @@
 ---
 all:
   children:
+    localhosts:
+      hosts:
+        # leave this is, because it sets inventory_dir
+        localhost:
+    backup:
     stolon:
       children:
         _postgres
@@ -10,8 +15,3 @@ all:
     hacluster:
       children:
         _postgres
-  hosts:
-    localhost:
-     vars:
-       ansible_connection: local
-       ansible_python_interpreter: "{{ansible_playbook_python}}"
