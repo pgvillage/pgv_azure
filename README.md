@@ -86,6 +86,10 @@ To get going on Azure:
      publisher: [Publisher]
    ```
 
+## Configuration
+
+All variables of the `azure` role (with defaults and descriptions) are documented in [docs/api.md](docs/api.md).
+
 ## Known issues and quirks
 
 - VMSize B1ls seems too small for pgVControl. Running with B1s seems to work good ATM.
