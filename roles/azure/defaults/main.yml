@@ -1,41 +1,119 @@
 ---
 # defaults file for azure
+
+#
+# Required variables without a default (set these in the inventory, e.g. group_vars/all/azure.yml):
+#
+# azure_control_ip: Public IP address of the Ansible control node. The network security group only allows
+#                   ssh (port 22) from this address (as a /32).
+# azure_control_ip: 1.2.3.4
+#
+# azure_allow_clean: Used by clean_resources.yml only. When true, the resource group is deleted even when it is
+#                    not empty, and the generated group_vars/all/certs.yml is removed from the inventory.
+# azure_allow_clean: false
+
+#
+# Generic
+#
+
+# Name of the cluster. Used as a building block for the names of most Azure resources created by this role.
 azure_cluster_name: cluster1
+# Name of the cluster suffixed with the first 10 characters of the ansible_machine_id of the control node.
+# Used for resources that must be unique (storage account and public DNS name). Note that this changes across
+# control nodes, so hardcode it (or the derived names) for production.
 azure_cluster_unique_name: "{{ azure_cluster_name }}{{ ansible_machine_id | truncate(10, true, '') }}"
+# Resource group that holds all Azure resources of the cluster. Is also removed by clean_resources.yml.
 azure_resource_group: 'rg_{{ azure_cluster_name }}'
+# Azure region where all resources are created.
+azure_location: westeurope
+
+#
+# Bastion host (jump host for ssh access to the scaleset VMs)
+#
+
+# Name of the bastion VM.
 azure_bastion_name: 'bastion{{ azure_cluster_name }}'
+# Azure VM size of the bastion VM.
 azure_bastion_vm_size: Standard_B1ls
+# Marketplace image of the bastion VM (dict with offer, publisher, sku and version). Defaults to the scaleset image.
 azure_bastion_image: '{{ azure_vmss_image }}'
+# Marketplace plan of the bastion VM (dict with name, publisher and product). Defaults to the scaleset plan.
+# Set to an empty dict ({}) for images that do not require a plan; image terms are only accepted for a non empty plan.
 azure_bastion_plan: '{{ azure_vmss_plan }}'
+
+#
+# VM Scaleset (the PostgreSQL database servers)
+#
+
+# Name of the VM scaleset.
+# Note that this uses `cluster_name` (an inventory variable), not `azure_cluster_name`.
 azure_vmss_name: 'vmss{{ cluster_name }}'
+# Azure VM size of the scaleset VMs.
 azure_vmss_vm_size: Standard_DS1_v2
+# Number of VMs in the scaleset.
 azure_vmss_vm_count: '3'
+# Marketplace image of the scaleset VMs (dict with offer, publisher, sku and version).
+# Use `az vm image list --all --publisher <publisher> --output table` to find values.
 azure_vmss_image:
   offer: rockylinux-x86_64
   publisher: resf
   sku: 9-base
   version: 9.6.20250531
+# Marketplace plan of the scaleset VMs (dict with name, publisher and product). Set to null for images without a plan.
+# The image terms might need to be accepted first with `az vm image terms accept`.
 azure_vmss_plan:
   name: 9-base
   publisher: resf
   product: rockylinux-x86_64
+
+#
+# Networking
+#
+
+# Name of the load balancer in front of the scaleset (forwards ports 22, 5432 and 5433).
 azure_lb_name: 'lb_{{ azure_cluster_name }}'
+# Name of the frontend IP configuration of the load balancer.
 azure_lbfe_name: 'lbfe_{{ azure_cluster_name }}'
+# Name of the backend address pool of the load balancer.
 azure_lbbe_name: 'lbbe_{{ azure_cluster_name }}'
+# Name of the virtual network (address space 10.0.0.0/16).
 azure_nw_name: 'nw_{{ azure_cluster_name }}'
+# Name of the subnet within the virtual network (10.0.1.0/24).
 azure_subnet_name: 'sn_{{ azure_cluster_name }}'
+# Name of the static public IP address (VIP) attached to the load balancer frontend.
 azure_vip_name: 'vip_{{ azure_cluster_name }}'
+# DNS label of the public IP address. Must be unique within the Azure region.
 azure_vip_dns_name: '{{ azure_cluster_unique_name }}'
+# Fully qualified domain name of the public IP address. Written to group_vars/all/azure_vip.yml in the inventory.
 azure_vip_dns_fqdn: '{{ azure_vip_dns_name }}.{{ azure_location }}.cloudapp.azure.com'
+# Name of the network security group (allows ssh from azure_control_ip, and PostgreSQL on 5432 and 5433).
 azure_sg_name: 'sg_{{ azure_cluster_name }}'
-azure_location: westeurope
+
+#
+# Disks
+#
+
+# Size (in GB) of the data disk (lun 0) of each scaleset VM.
 azure_data_gb: 100
+# Size (in GB) of the WAL disk (lun 1) of each scaleset VM.
 azure_wal_gb: 10
+# Managed disk type of the OS disks (e.g. Standard_LRS, StandardSSD_LRS, Premium_LRS).
 azure_vm_disk_type: Standard_LRS
+# Managed disk type of the data disks. Defaults to azure_vm_disk_type.
 azure_data_disk_type: '{{ azure_vm_disk_type }}'
+# Managed disk type of the WAL disks. Defaults to azure_data_disk_type.
 azure_wal_disk_type: '{{ azure_data_disk_type }}'
+
+#
+# Backup storage (used by wal-g)
+#
+
+# Name of the storage account. Must be unique across all of Azure (3-24 lowercase letters and digits).
 # azure_storage_account_name must be unique across all of azure, therefore using a truncated version of machine_id
-# of the ansible controlnode, which is a terrible idea for production, but at least is pseudorandom for demo purpose
+# of the ansible controlnode, which is a terrible idea for production, but at least is pseudorandom for demo purpose.
+# Written (together with the access key) to group_vars/_postgres/wal-g.yml in the inventory.
 azure_storage_account_name: 'sa{{ azure_cluster_unique_name }}'
+# Replication type of the storage account (e.g. Standard_LRS, Standard_GRS, Standard_RAGRS).
 azure_storage_account_type: Standard_RAGRS
+# Name of the blob container in the storage account that holds the backups.
 azure_storage_container: 'backup{{ azure_cluster_name }}'
